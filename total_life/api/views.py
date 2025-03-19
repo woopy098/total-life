@@ -10,8 +10,12 @@ class ClinicianViewSet(viewsets.ModelViewSet):
     serializer_class = ClinicianSerializer
 
     def create(self, request, *args, **kwargs):
+        print(request.data)
         npi_number = request.data.get("npi_number")
-        response = requests.get(f"https://npiregistry.cms.hhs.gov/api/?number={npi_number}&version=2.1")
+        first_name = request.data.get("first_name")
+        last_name =  request.data.get("last_name")
+        state = request.data.get("state")
+        response = requests.get(f"https://npiregistry.cms.hhs.gov/api/?number={npi_number}&first_name={first_name}&last_name={last_name}&state={state}&version=2.1")
 
         if response.status_code == 200:
             data = response.json()
