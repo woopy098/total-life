@@ -20,7 +20,7 @@ class ClinicianViewSet(viewsets.ModelViewSet):
         if response.status_code == 200:
             data = response.json()
             if data["result_count"] == 0:
-                return Response({"error": "Invalid NPI Number"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error": "Invalid Details"}, status=status.HTTP_400_BAD_REQUEST)
         return super().create(request, *args, **kwargs)
 
 class PatientViewSet(viewsets.ModelViewSet):
