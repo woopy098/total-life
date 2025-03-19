@@ -25,7 +25,7 @@ class Appointment(models.Model):
 
     patient= models.ForeignKey(Patient,on_delete=models.CASCADE)
     clinician = models.ForeignKey(Clinician,on_delete=models.CASCADE)
-    appointment_time= models.DateTimeField()
+    appointment_time= models.TimeField()
     status= models.CharField(max_length=10, choices=status_choice, default='pending')
 
 
