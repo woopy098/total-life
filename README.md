@@ -25,7 +25,7 @@ ___
 ---
 
 ### Prerequisites
-- **Python 3.x**
+- **Python 3.10 or Higher**
 - **Node.js & npm**
 - **Git** (optional but recommended)
 
