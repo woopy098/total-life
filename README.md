@@ -77,6 +77,57 @@ ___
    The frontend will be available at: `http://localhost:3000`
 
 
+## Backend Structure
+___
+The backend consists of three core models:
+
+### 1. **Clinician Model** (`Clinician`)
+This model represents medical professionals who provide healthcare services.
+
+#### **Fields:**
+- `first_name` *(CharField, max_length=50)* - First name of the clinician.
+- `last_name` *(CharField, max_length=50)* - Last name of the clinician.
+- `state` *(CharField, max_length=2)* - The state where the clinician is licensed (e.g., "NY").
+- `npi_number` *(CharField, max_length=10, unique=True)* - A unique **National Provider Identifier (NPI)** number.
+
+#### **Relationships:**
+- This model is **referenced in the `Appointment` model** since an appointment is associated with a clinician.
+
+#### **Validation:**
+When a clinician is created, their `npi_number` is validated against the **NPI Registry API** to ensure legitimacy.
+
+---
+
+### 2. **Patient Model** (`Patient`)
+This model represents individuals receiving medical care.
+
+#### **Fields:**
+- `first_name` *(CharField, max_length=50)* - First name of the patient.
+- `last_name` *(CharField, max_length=50)* - Last name of the patient.
+- `date_of_birth` *(DateField)* - The patient’s date of birth.
+
+#### **Relationships:**
+- This model is **referenced in the `Appointment` model**, as a patient can have multiple appointments.
+
+---
+
+### 3. **Appointment Model** (`Appointment`)
+This model stores details about patient appointments.
+
+#### **Fields:**
+- `patient` *(ForeignKey → Patient)* - The patient who booked the appointment.
+- `clinician` *(ForeignKey → Clinician)* - The clinician attending the appointment.
+- `appointment_time` *(TimeField)* - The scheduled time of the appointment.
+- `status` *(CharField, choices=["pending", "completed", "cancelled"], default="pending")* - The current status of the appointment.
+
+#### **Relationships:**
+- **`patient` ForeignKey** → Links each appointment to a patient.
+- **`clinician` ForeignKey** → Links each appointment to a clinician.
+
+#### **Constraints:**
+- The appointment status is **limited to three choices** (`pending`, `completed`, `cancelled`).
+- **Deletion Policy:** If a patient or clinician is deleted, their associated appointments are also removed (**CASCADE delete**).
+
 
 ## API Endpoints
 ---
